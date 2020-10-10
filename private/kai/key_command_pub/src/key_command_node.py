@@ -5,35 +5,67 @@ import orienbus
 import time
 import keyboard
 import os
+import getch
 
 from std_msgs.msg import Int8
+from geometry_msgs.msg import Twist
+
+global state
+global target
+
+def set_state(inp):
+    global state
+    if inp == "0".encode("ASCII"):
+        state = 0
+
+    elif inp == "1".encode("ASCII"):
+        state = 1
+
+    elif inp == "2".encode("ASCII"):
+        state = 2
+
 
 def key_command_pub():
-    pub = rospy.Publisher("key_commands", Int8, queue_size =10 )
-    rospy.init_node('key_command_pub', anonymous= True)
+    pub = rospy.Publisher("target_angle", Int8, queue_size =10 )
+    rospy.init_node('target_angle_pub', anonymous= True)
 
     rate = rospy.Rate(10)
 
+    #rf =1 lf =2 rb =3 lb =4
+
+    #0,1,2
+
     while not rospy.is_shutdown():
+        char = getch.getch()
 
-        if keyboard.is_pressed('9'):
-            pub.publish(9)
-        
-        elif keyboard.is_pressed('0'):
-            pub.publish(0)
+        set_state(char)
 
-        elif keyboard.is_pressed('1'):
-            pub.publish(1)
+        if state == 0:
+            target = Twist()
+            encoder_pos.linear.x =      0
+            encoder_pos.linear.y =      0 
+            encoder_pos.linear.z =      0
+            encoder_pos.angular.x =     0
 
-        elif keyboard.is_pressed('2'):
-            pub.publish(2)
-        
-        else:
-            pub.publish(-1)
+        if state == 1:
+            target = Twist()
+            encoder_pos.linear.x =      -90
+            encoder_pos.linear.y =      -90 
+            encoder_pos.linear.z =      -90
+            encoder_pos.angular.x =     -90
+
+        if state == 2:
+            target = Twist()
+            encoder_pos.linear.x =      90
+            encoder_pos.linear.y =      90 
+            encoder_pos.linear.z =      90
+            encoder_pos.angular.x =     90
+
+
+        pub.publish(target)
 
 if __name__ == '__main__':
     try:
-        run_sudo()
         key_command_pub()
     
     except rospy.ROSInterruptException:

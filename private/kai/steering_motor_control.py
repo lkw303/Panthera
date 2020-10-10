@@ -61,26 +61,6 @@ def encoder_pos(data): # Twist message, current angles in degrees
     motors["rb"] = data.angular.x
     motors["m_time"] = rospy.get_rostime()
 
-'''
-
-def desired_state(cmd):
-    if cmd == "0":
-        targets["lf"] = 0
-        targets["lb"] = 0
-        targets["rf"] = 0
-        targets["rb"] = 0
-    elif cmd == '1':
-        targets["lf"] = -90
-        targets["lb"] = -90
-        targets["rf"] = -90
-        targets["rb"] = -90
-
-    elif cmd == '2':
-        targets["lf"] = 90
-        targets["lb"] = 90
-        targets["rf"] = 90
-        targets["rb"] = 90
-'''
 
 def desired_pos(data): # Reading from a twist message containing the cmd for the traget angle for each unit
     targets["lf"] = data.linear.x
@@ -99,12 +79,16 @@ def integral(accu):
     return ki * accu
 
 def controller(motor_ls):
+    rospy.init_node('steering_control')
+    enc_sub = rospy.Subscriber("encoder_positions", Twist, encoder_pos)
+    targets = rospy.Subscriber("target_angle", Twist, desired_pos)
     rate = rospy.Rate(10)
     while not rospy.is_shutdown():
         for i in motor_ls:
             i.adjust_speed()
             motors["prev_time"] = motors["m_time"]
         rate.sleep()
+    rospy.spin()
 
 def initialize():
     lf = Motor(address_rot_lf, "lf")
@@ -113,19 +97,20 @@ def initialize():
     rb = Motor(address_rot_rb, "rb")
     motor_ls = [lf, lb, rf, rb]
 
+'''
 def run_node():
     rospy.init_node('steering_control')
     enc_sub = rospy.Subscriber("encoder_positions", Twist, encoder_pos)
-    targets = rospy.Subscriber("target_angles", Twist, desired_pos)
+    targets = rospy.Subscriber("target_angle", Twist, desired_pos)
     controller(motor_ls)
 
     rospy.spin()
-    
+'''    
 
 if __name__ == "__main__":
     try:
         initialize()
-        run_node()
+        controller()
 
 
     except rospy.ROSInterruptException:
