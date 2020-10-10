@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 import rospy
 import orienbus
@@ -13,23 +13,14 @@ from geometry_msgs.msg import Twist
 global state
 global target
 
-def set_state(inp):
-    global state
-    if inp == "0".encode("ASCII"):
-        state = 0
 
-    elif inp == "1".encode("ASCII"):
-        state = 1
-
-    elif inp == "2".encode("ASCII"):
-        state = 2
 
 
 def key_command_pub():
     global state
     global target
     
-    pub = rospy.Publisher("target_angle", Int8, queue_size =10 )
+    pub = rospy.Publisher("target_angle", Twist, queue_size =10 )
     rospy.init_node('target_angle_pub', anonymous= True)
 
     rate = rospy.Rate(10)
@@ -39,33 +30,41 @@ def key_command_pub():
     #0,1,2
 
     while not rospy.is_shutdown():
-        char = getch.getch()
+        char = None
+        try:
+            char = getch.getch()
+        except:
+            pass
 
-        set_state(char)
-
-        if state == 0:
+        if char == '0':
             target = Twist()
             target.linear.x =      0
             target.linear.y =      0 
             target.linear.z =      0
             target.angular.x =     0
+            pub.publish(target)
 
-        if state == 1:
+        elif char == '1':
             target = Twist()
             target.linear.x =      -90
             target.linear.y =      -90 
             target.linear.z =      -90
             target.angular.x =     -90
+            pub.publish(target)
 
-        if state == 2:
+        elif char == '2':
             target = Twist()
             target.linear.x =      90
             target.linear.y =      90 
             target.linear.z =      90
             target.angular.x =     90
+            pub.publish(target)
+        
+        else:
+            pass
 
-
-        pub.publish(target)
+            
+        rospy.sleep(0.5)
 
 if __name__ == '__main__':
     try:
