@@ -26,6 +26,9 @@ def set_state(inp):
 
 
 def key_command_pub():
+    global state
+    global target
+    
     pub = rospy.Publisher("target_angle", Int8, queue_size =10 )
     rospy.init_node('target_angle_pub', anonymous= True)
 
@@ -42,24 +45,24 @@ def key_command_pub():
 
         if state == 0:
             target = Twist()
-            encoder_pos.linear.x =      0
-            encoder_pos.linear.y =      0 
-            encoder_pos.linear.z =      0
-            encoder_pos.angular.x =     0
+            target.linear.x =      0
+            target.linear.y =      0 
+            target.linear.z =      0
+            target.angular.x =     0
 
         if state == 1:
             target = Twist()
-            encoder_pos.linear.x =      -90
-            encoder_pos.linear.y =      -90 
-            encoder_pos.linear.z =      -90
-            encoder_pos.angular.x =     -90
+            target.linear.x =      -90
+            target.linear.y =      -90 
+            target.linear.z =      -90
+            target.angular.x =     -90
 
         if state == 2:
             target = Twist()
-            encoder_pos.linear.x =      90
-            encoder_pos.linear.y =      90 
-            encoder_pos.linear.z =      90
-            encoder_pos.angular.x =     90
+            target.linear.x =      90
+            target.linear.y =      90 
+            target.linear.z =      90
+            target.angular.x =     90
 
 
         pub.publish(target)
