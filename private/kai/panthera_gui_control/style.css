@@ -1,0 +1,185 @@
+body{
+    margin: 0;
+}
+
+.container{
+    display: grid;
+    grid-template-rows: 50px
+                        490px
+                        510px
+                        30px;
+    grid-template-columns: 1fr
+                            4fr
+                            4fr
+                            1fr;
+    grid-template-areas: "banner banner banner banner"
+                        "header header header header"
+                        ". chart map ."
+                        "end end end end";
+
+}
+
+nav{
+    float: right;
+    margin-right: 20px;
+}
+nav ul{
+    list-style: none;
+    
+}
+nav li{
+    display: inline-block;
+    margin-left: 70px;
+    position: relative;
+
+}
+nav a{
+    text-transform: uppercase;
+    text-decoration: none;
+    color: white;
+}
+
+nav a:hover{
+    color: brown;
+}
+
+nav a::before{
+    content:'';
+    display: block;
+    height: 2.5px;
+    width: 0%;
+    background-color: black;
+
+    position: absolute;
+    transition: all ease-in-out 250ms
+}
+
+nav a:hover::before{
+    width: 100%;
+}
+/* banner block*/
+
+.banner{
+ 
+    grid-area: banner;
+    background-color: #A74D4D;
+    
+
+
+}
+
+
+.momo{
+    width: 860px;
+    height: 210px;
+}
+
+.sutd{
+    height: 40px;
+    border-radius: 5px;
+    margin: 5px;
+
+    
+
+}
+
+.soar{
+    height: 40px;
+    border-radius: 10px;
+    margin: 5px;
+
+
+    
+
+}
+
+
+
+/* bar block*/
+
+/* header block*/
+.header{
+    grid-area: header;
+    text-align: center;
+    background: #FDCBCB;
+    font-size: 30px;
+    color: black;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+    padding: 50px;
+
+  
+}
+
+
+#p1{
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    color: cornsilk;
+}
+
+.momotext{
+    font-size: 100px;
+    color: blanchedalmond;
+    margin-top: 20px;
+}
+
+
+
+.text{
+    width: 100px;
+    height: 50px;
+    border-radius: 10px;
+    font-size: 10px;
+    font-family: Arial, Helvetica, sans-serif;
+    border: none;
+    display: inline-block;
+    text-align: center;
+   
+
+}
+.submit{
+    color: aliceblue;
+    position: relative;
+    width: auto;
+    width: 100px;
+    height: 50px;
+    border-radius: 10px; 
+    background-color:#5E1111 ;
+    font-weight: bold;
+    margin: 10px;
+}
+
+.submit:hover{
+    background-color: rgb(165, 89, 89);
+}
+/* header block*/
+
+
+/* diagrams block*/
+
+
+
+.chart{
+    grid-area: chart;
+
+   
+
+}
+
+#map{
+    grid-area: map;
+
+  
+}
+
+.end{
+    grid-area: end;
+    background-color: #5E1111 ;
+}
+
+
+
+
+/* diagrams block*/
