@@ -19,9 +19,12 @@ global target
 def key_command_pub():
     global state
     global target
+    global speed
     
     pub = rospy.Publisher("target_angle", Twist, queue_size =10 )
+    pub2 = rospy.Publisher("target_speed", Twist, queue_size = 10)
     rospy.init_node('target_angle_pub', anonymous= True)
+
 
     rate = rospy.Rate(10)
 
@@ -59,6 +62,22 @@ def key_command_pub():
             target.linear.z =      90
             target.angular.x =     90
             pub.publish(target)
+        
+        elif char == "f":
+            speed = Twist()
+            speed.linear.x =      90
+            speed.linear.y =      90 
+            speed.linear.z =      90
+            speed.angular.x =     90
+            pub2.publish(speed)
+
+        elif char == "b":
+            speed = Twist()
+            speed.linear.x =      -90
+            speed.linear.y =      -90 
+            speed.linear.z =      -90
+            speed.angular.x =     -90
+            pub2.publish(speed)
         
         else:
             pass
