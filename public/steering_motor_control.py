@@ -57,16 +57,14 @@ class Motor():
         self.prev_time =0
 
     def adjust_speed(self):
-        global motors
-        global targets
         self.curr_error = targets[self.name] - motors[self.name]
         print("current error is:" +str(self.curr_error))
         self.accu_err += self.curr_err
         print("accu error is:" +str(self.accu_err))
         print("prev error is:" +str(self.prev_err))
-        p = proportional(targets[self.name], motors[self.name], self.kp)
-        d = derivative(self.curr_err, self.prev_err, self.kd)
-        i = integral(self.accu_err, self.ki)
+        p = proportional()
+        d = derivative()
+        i = integral()
         speed = p + i + d
         speed =  -int(speed)
         print("input speed is: " + str(speed))
@@ -78,14 +76,29 @@ class Motor():
             else:
                 self.motor.writeSpeed(MAX_SPEED)
         self.prev_err = self.curr_err
+    
+    def proportional(self): #error - current angle
+        prop =  self.kp * (self.target - self.angle)
+        print("prop is: " + str(prop))
+        return prop
+
+    def derivative(self, curr, prev, kd): #d angle-error/ dt
+        dt = self.time - self.prev_time
+        self.deriv = (kd * (self.curr_err - self.prev_err)) / dt
+
+        print("deriv is: "+ str(deriv))
+        return deriv
+
+    def integral(accu, ki):
+        integral =  self.ki * self.accu
+        print("integral is : " +str(integral))
+        return integral
         
 
 def encoder_pos(data): # Twist message, current angles in degree 
     global motor_ls
     motor_ls[0].angle = data.linear.z
-   
     time = rospy.get_rostime()
-
     motor_ls[0].time = time.secs + time.nsecs*(10**(-9))
 
 
@@ -94,31 +107,7 @@ def desired_pos(data): # Reading from a twist message containing the cmd for the
     motor_ls[0].target = data.linear.z
 
 
-def proportional(desired, actual, kp): #error - current angle
-    prop =  kp * (desired - actual)
-    print("prop is: " + str(prop))
-    return prop
 
-def derivative(curr, prev, kd): #d angle-error/ dt
-    
-    deriv = (kd * (curr - prev)) / 0.05
-    '''
-    dt = (motors["m_time"] - motors["prev_time"])
-    print("dt is: " + str(dt))
-    if dt == 0:
-        deriv = 0
-    else:
-        deriv = kd * (curr - prev) / dt
-    print("deriv is: "+ str(deriv))
-    return deriv
-    '''
-    print("deriv is: "+ str(deriv))
-    return deriv
-
-def integral(accu, ki):
-    integral =  ki * accu
-    print("integral is : " +str(integral))
-    return integral
 
 def controller(motor_ls):
     rospy.init_node('steering_control')
@@ -143,14 +132,7 @@ def initialize():
     #motor_ls = [lf, lb, rf, rb]
     motor_ls = [lf]
 
-'''
-def run_node():
-    rospy.init_node('steering_control')
-    enc_sub = rospy.Subscriber("encoder_positions", Twist, encoder_pos)
-    targets = rospy.Subscriber("target_angle", Twist, desired_pos)
-    controller(motor_ls)
-    rospy.spin()
-'''   
+
 
 if __name__ == "__main__":
     try:
