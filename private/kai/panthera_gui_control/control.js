@@ -24,6 +24,7 @@
 
   let submitSpeed = document.getElementById("submit_speed");
   let submitAngle = document.getElementById("submit_angle");
+  let pubRecalib = document.getElementById("pub_recalib")
 
   let lf_cw  =  document.getElementById("lf_cw ");
   let lf_acw =  document.getElementById("lf_acw");
@@ -48,6 +49,12 @@
     name: '/target_speed',
     messageType: 'geometry_msgs/Twist'
 
+  });
+
+  var recalib_encoder = new ROSLIB.Topic({
+    ros : ros,
+    name : '/recalibrate_encoder',
+    messageType : 'std_msgs/Int32'
   });
   
 
@@ -74,6 +81,12 @@
     target_speed.publish(twist_speed);
   };
 
+  pubRecalib.onclick  = function(){
+    encoder_idx = document.getElementById("encoder_idx");
+    recalib_encoder.publish(encoder_idx);
+  };
+  
+
 
   submitAngle.onclick = function(){
     angle_lf  = document.getElementById("lf_rot").value;
@@ -91,8 +104,8 @@
         },
         angular : {
           x : angle_rb,
-          y : -0.2,
-          z : -0.3
+          y : 0,
+          z : 0
         }
       });
 
