@@ -5,18 +5,7 @@ import time
 import orienbus
 
 from geometry_msgs.msg import Twist
-'''
-# For motor address 11,10,12
-kp = 19
-kd = 0.01
-ki = 10
 
-
-# For motor address 13
-kp = 6
-kd = 0.5
-ki = 0.1
-'''
 
 MAX_SPEED = 600
 global motors
@@ -58,16 +47,16 @@ class Motor():
 
     def adjust_speed(self):
         self.curr_error = targets[self.name] - motors[self.name]
-        print("current error is:" +str(self.curr_error))
+        print(self.name + "current error is:" +str(self.curr_error))
         self.accu_err += self.curr_err
-        print("accu error is:" +str(self.accu_err))
-        print("prev error is:" +str(self.prev_err))
-        p = proportional()
-        d = derivative()
-        i = integral()
+        print(self.name + "accu error is:" +str(self.accu_err))
+        print(self.name + "prev error is:" +str(self.prev_err))
+        p = self.proportional()
+        d = self.derivative()
+        i = self.integral()
         speed = p + i + d
         speed =  -int(speed)
-        print("input speed is: " + str(speed))
+        print(self.name + "input speed is: " + str(speed))
         if abs(speed) < abs(MAX_SPEED):
             self.motor.writeSpeed(min(speed, MAX_SPEED))
         else:
@@ -90,7 +79,7 @@ class Motor():
         return deriv
 
     def integral(accu, ki):
-        integral =  self.ki * self.accu
+        integral =  self.ki * self.accu_err
         print("integral is : " +str(integral))
         return integral
         
@@ -107,8 +96,6 @@ def desired_pos(data): # Reading from a twist message containing the cmd for the
     motor_ls[0].target = data.linear.z
 
 
-
-
 def controller(motor_ls):
     rospy.init_node('steering_control')
     rospy.Subscriber("encoder_positions", Twist, encoder_pos)
@@ -119,7 +106,6 @@ def controller(motor_ls):
         for i in motor_ls:
             i.adjust_speed()
 	    i.prev_time = i.time
-            #motors["prev_time"] = motors["m_time"]
             rate.sleep()
     rospy.spin()
 
