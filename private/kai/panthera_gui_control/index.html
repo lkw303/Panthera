@@ -1,100 +1,172 @@
 <!DOCTYPE html>
 <html>
-<head>
-<meta charset="utf-8" />
-<script type="text/javascript" src = "plotly.min.js"></script>
-<script type="text/javascript" src="http://static.robotwebtools.org/EventEmitter2/current/eventemitter2.min.js"></script>
-<script type="text/javascript" src="http://static.robotwebtools.org/roslibjs/current/roslib.min.js"></script>
-<script type="text/javascript" src="http://static.robotwebtools.org/EaselJS/current/easeljs.min.js"></script>
-<script type="text/javascript" src="http://static.robotwebtools.org/EventEmitter2/current/eventemitter2.min.js"></script>
-<script type="text/javascript" src="http://static.robotwebtools.org/roslibjs/current/roslib.min.js"></script>
-<script type="text/javascript" src="http://static.robotwebtools.org/ros2djs/current/ros2d.min.js"></script>
 
-<script type="text/javascript" src="http://static.robotwebtools.org/EaselJS/current/easeljs.min.js"></script>
-<script type="text/javascript" src="http://static.robotwebtools.org/EventEmitter2/current/eventemitter2.min.js"></script>
-<script type="text/javascript" src="http://static.robotwebtools.org/nav2djs/current/nav2d.min.js"></script>
-<script type="text/javascript" src="http://static.robotwebtools.org/nav2djs/current/nav2d.min.js"></script>
-<link rel="stylesheet" href="style.css">
+<head>
+  <meta charset="utf-8" />
+  <script type="text/javascript" src="plotly.min.js"></script>
+  <script type="text/javascript" src="progressbar.min.js"></script>
+  <script type="text/javascript"
+    src="http://static.robotwebtools.org/EventEmitter2/current/eventemitter2.min.js"></script>
+  <script type="text/javascript" src="http://static.robotwebtools.org/roslibjs/current/roslib.min.js"></script>
+  <script type="text/javascript" src="http://static.robotwebtools.org/EaselJS/current/easeljs.min.js"></script>
+  <script type="text/javascript"
+    src="http://static.robotwebtools.org/EventEmitter2/current/eventemitter2.min.js"></script>
+  <script type="text/javascript" src="http://static.robotwebtools.org/roslibjs/current/roslib.min.js"></script>
+  <script type="text/javascript" src="http://static.robotwebtools.org/ros2djs/current/ros2d.min.js"></script>
+
+  <script type="text/javascript" src="http://static.robotwebtools.org/EaselJS/current/easeljs.min.js"></script>
+  <script type="text/javascript"
+    src="http://static.robotwebtools.org/EventEmitter2/current/eventemitter2.min.js"></script>
+  <script type="text/javascript" src="http://static.robotwebtools.org/nav2djs/current/nav2d.min.js"></script>
+  <script type="text/javascript" src="http://static.robotwebtools.org/nav2djs/current/nav2d.min.js"></script>
+  <link rel="stylesheet" href="style.css">
+  <link href="css-circular-prog-bar.css" rel="stylesheet">
 
 
 
 </head>
 
-<body >
+<body>
 
-<div class = "container">
+  <div class="container" id="container">
 
-  <div class = "banner" id= "banner">
-      
+    <div class="banner" id="banner">
+
       <nav>
         <ul>
           <li><a href="simple.html">Home</a></li>
           <li><a href="./camera.html">Camera</a></li>
           <li><a href="navigation.html">Map</a></li>
           <li><a href="#">Graphs</a></li>
-          
+
         </ul>
       </nav>
-      
-  </div>
-
-  <div>
-      
-  </div>
-
-  
-  <div class = "header" id = "header">
-    <div class = "speed" id = "speed">
-        <input type="number" class = "value" id="lf_trans" placeholder="input speed lf">
-        <input type="number" class = "value" id="lb_trans" placeholder="input speed lb">
-        <input type="number" class = "value" id="rb_trans" placeholder="input speed rb">
-        <input type="number" class = "value" id="rf_trans" placeholder="input speed rf">
-        <input type= "submit" class="submit_speed" id ="submit_speed">
-    </div>
-
-    <div class = "angle" id ="angle">
-        <input type="number" class = "value" id="lf_rot" placeholder="target angle lf">
-        <input type="number" class = "value" id="lb_rot" placeholder="target angle lb">
-        <input type="number" class = "value" id="rf_rot" placeholder="target angle rb">
-        <input type="number" class = "value" id="rb_rot" placeholder="target angle rf">
-        <input type= "submit" class="submit_angle" id ="submit_angle">
-    </div>
-    <div class = "rotation" id = "rotation">
-        <input type= "button" class="lf_cw"   id ="lf_cw"   >
-        <input type= "button" class="lf_acw"  id ="lf_acw"  >
-        <input type= "button" class="lb_cw"   id ="lb_cw"   >
-        <input type= "button" class="lb_acw"  id ="lb_acw"  >
-        <input type= "button" class="rf_cw"   id ="rf_cw"   >
-        <input type= "button" class="rf_acw"  id ="rf_acw"  >
-        <input type= "button" class="rb_cw"   id ="rb_cw"   >
-        <input type= "button" class="rb_acw"  id ="rb_acw"  >
 
     </div>
-    <div class = "recalib" id = "recalib">
-      <input type= "number" class = "encoder_idx", id = "encoder_idx">
-      <input type = "button" class = "pub_recalib" is = "pub_recalib">
+
+
+
+
+    <div class="header" id="header">
+
+      <div class="wheel_display" id="wheel_display">
+        <!--
+          <div class = "lf_angle" id = "lf_angle">lf</div>
+        <div class = "rf_angle" id = "rd_angle">rf</div>
+        <div class = "lb_angle" id = "lb_angle">lb</div>
+        <div class = "rb_angle" id = "rb_angle">rb</div>
+        -->
+        <svg id="svg_lf" viewbox="0 0 100 100">
+          <circle cx="50" cy="50" r="45" fill="#A74D4D" />
+          <path id = "svg_lf_path" fill="none" stroke-linecap="round" stroke-width="5" stroke="#fff" stroke-dasharray="1,250.2" d="M50 10
+                 a 40 40 0 0 1 0 80
+                 a 40 40 0 0 1 0 -80" />
+          <text id="svg_lf_text" class="svg_lf_text" x="50" y="50" text-anchor="middle" dy="7" font-size="20"></text>
+        </svg>
+        <svg id="svg_rf" viewbox="0 0 100 100">
+          <circle cx="50" cy="50" r="45" fill="#A74D4D" />
+          <path id = "svg_rf_path" fill="none" stroke-linecap="round" stroke-width="5" stroke="#fff" stroke-dasharray="120,250.2" d="M50 10
+               a 40 40 0 0 1 0 80
+               a 40 40 0 0 1 0 -80" />
+          <text id="svg_rf_text" class="svg_rf_text" x="50" y="50" text-anchor="middle" dy="7" font-size="20">10</text>
+        </svg>
+        <svg id="svg_lb" viewbox="0 0 100 100">
+          <circle cx="50" cy="50" r="45" fill="#A74D4D" />
+          <path id = "svg_lb_path" fill="none" stroke-linecap="round" stroke-width="5" stroke="#fff" stroke-dasharray="1,250.2" d="M50 10
+             a 40 40 0 0 1 0 80
+             a 40 40 0 0 1 0 -80" />
+          <text id="svg_lb_text" class="svg_lb_text" x="50" y="50" text-anchor="middle" dy="7" font-size="20">10</text>
+        </svg>
+        <svg id="svg_rb" viewbox="0 0 100 100">
+          <circle cx="50" cy="50" r="45" fill="#A74D4D" />
+          <path id = "svg_rb_path" fill="none" stroke-linecap="round" stroke-width="5" stroke="#fff" stroke-dasharray="1,250.2" d="M50 10
+           a 40 40 0 0 1 0 80
+           a 40 40 0 0 1 0 -80" />
+          <text id="svg_rb_text" class="svg_rb_text" x="50" y="50" text-anchor="middle" dy="7" font-size="20" color ="#ffffff">10</text>
+        </svg>
+
+
+        <!--
+            
+          -->
+
+
+      </div>
+
+      <div class="data_send" id="data_send">
+        <div class="speed" id="speed">
+          <input type="number" class="value" id="lf_trans" placeholder="input speed lf" step="0.01">
+          <input type="number" class="value" id="lb_trans" placeholder="input speed lb" step="0.01">
+          <input type="number" class="value" id="rb_trans" placeholder="input speed rb" step="0.01">
+          <input type="number" class="value" id="rf_trans" placeholder="input speed rf" step="0.01">
+          <input type="submit" class="submit_speed" id="submit_speed">
+        </div>
+
+        <div class="angle" id="angle">
+          <input type="number" class="value" id="lf_rot" placeholder="target angle lf">
+          <input type="number" class="value" id="lb_rot" placeholder="target angle lb">
+          <input type="number" class="value" id="rf_rot" placeholder="target angle rb">
+          <input type="number" class="value" id="rb_rot" placeholder="target angle rf">
+          <input type="submit" class="submit_angle" id="submit_angle">
+        </div>
+        <div class="rotation" id="rotation">
+          <input type="button" class="lf_cw" id="lf_cw">
+          <input type="button" class="lf_acw" id="lf_acw">
+          <input type="button" class="lb_cw" id="lb_cw">
+          <input type="button" class="lb_acw" id="lb_acw">
+          <input type="button" class="rf_cw" id="rf_cw">
+          <input type="button" class="rf_acw" id="rf_acw">
+          <input type="button" class="rb_cw" id="rb_cw">
+          <input type="button" class="rb_acw" id="rb_acw">
+
+        </div>
+        <div class="recalib" id="recalib">
+          <input type="number" class="encoder_idx" , id="encoder_idx" placeholder="recalibrate idx">
+          <button input type="button" class="pub_recalib" id="pub_recalib">reclib</button>
+        </div>
+
+        <div class="battery" id="battery">
+          <button input type="button" class="battery" id="battery">battery</button>
+        </div>
+
+      </div>
 
     </div>
-    
+
+
+    <div id="chart" class="chart">
+      <div id="temp" class="temp">Temperature</div>
+      <div id="volt" class="volt">Voltage</div>
+      <div id="current" class="current">Current</div>
+      <div id="battery_bars" class=battery_bars>
+        <div id=temp_bar class="temp_bar">
+
+          <progress id="temp_health" class="temp_health" value="100" max="100"></progress>
+          <p class="temp_value" id="temp_value">Temp</p>
+        </div>
+        <div id=volt_bar class="volt_bar">
+          <progress id="volt_health" class="volt_health" value="100" max="100"></progress>
+          <p class="volt_value" id="volt_value">Volt</p>
+        </div>
+        <div id=current_bar class="current_bar">
+          <progress id="current_health" class="current_health" value="100" max="100"></progress>
+          <p class="current_value" id="current_value">Current</p>
+        </div>
+
+      </div>
+
+
+    </div>
+
+
+    <div class="end" id="end"></div>
+
 
   </div>
 
 
-  <div id ="chart" class = "chart">
 
-  </div>
-    
-  <div id = "map" class="map">
-  </div>
-
-  <div class="end">
-  </div>
-
-
-</div>
-
-  
-  
-<script src = "bridge.js"></script>
+  <script src="control.js"></script>
 </body>
+
 </html>

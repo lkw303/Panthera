@@ -1,24 +1,29 @@
+@import url('https://fonts.googleapis.com/css?family=Poppins:400,500,600,700&display=swap');
+
 body{
     margin: 0;
 }
 
 .container{
     display: grid;
-    grid-template-rows: 50px
-                        490px
-                        510px
-                        30px;
+    grid-template-rows: 1fr
+                        10fr
+                        10fr
+                        2fr;
 
-    grid-template-columns: 1fr
+    grid-template-columns: 0.2fr
                             4fr
                             4fr
-                            1fr;
+                            0.2fr;
     grid-template-areas: "banner banner banner banner"
                         "header header header header"
-                        ". chart map ."
+                        "chart chart chart chart"
                         "end end end end";
 
 }
+
+
+/* banner stuff*/
 
 nav{
     float: right;
@@ -58,7 +63,7 @@ nav a::before{
 nav a:hover::before{
     width: 100%;
 }
-/* banner block*/
+
 
 .banner{
  
@@ -69,53 +74,48 @@ nav a:hover::before{
 
 
 
-/* bar block*/
 
 /* header block*/
-.header{
-    display: grid;
+#header{
     grid-area: header;
+    display: grid;
     text-align: center;
     background: #FDCBCB;
     font-size: 30px;
     color: black;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-evenly;
     align-items: center;
     padding: 50px;
 
   
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: 1fr,1fr;
+    grid-template-areas: "wheel_display data_send ";
+    
    
-
-  
 }
 
-.header.speed{
+/* header data_send */
+
+#data_send{
+    grid-area: data_send;
+    text-align: center;
+    justify-content: space-evenly;
+    align-items: center;
+
+}
+
+
+
+#speed{
     grid-area: speed;
-    display: flex;
-    flex-direction: column;
+    
+    
 }
 
-.header.angle{
+#angle{
     grid-area: angle;
-    display: flex;
-    flex-direction: column;
+
+    
 }
-
-
-#p1{
-    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-    color: cornsilk;
-}
-
-.momotext{
-    font-size: 100px;
-    color: blanchedalmond;
-    margin-top: 20px;
-}
-
 
 
 .value{
@@ -145,25 +145,98 @@ nav a:hover::before{
 .submit:hover{
     background-color: rgb(165, 89, 89);
 }
-/* header block*/
+
+/*header wheel display*/
+
+#wheel_display{
+    grid-area: wheel_display;
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 2fr;
+    grid-template-rows: 1fr 1fr;
+    grid-template-areas: " .lf rf ."
+                        ". lb rb ." ;
+    
+}
+
+#svg_lf{
+    grid-area: lf;
+
+}
+#svg_rf{
+    grid-area: rf;
+    
+}
+#svg_lb{
+    grid-area: lb;
+    
+}
+#svg_rb{
+    grid-area: rb;
+    
+}
 
 
-/* diagrams block*/
 
 
+  /* end of header wheel_data*/
+/* end of header block*/
+
+
+/* chart block*/
 
 .chart{
     grid-area: chart;
-
-
    
-
+    display: grid;
+    grid-template-columns: 
+                           1fr
+                           2fr
+                           2fr
+                           2fr
+                           ;
+    
+    grid-template-areas: "battery_bar temp volt current";
+   
 }
 
-#map{
-    grid-area: map;
+/*battery bars */
 
-  
+
+ #battery_bars{
+    grid-area: battery_bar;
+    float: left;
+}
+
+#temp{
+    grid-area: : temp;
+    display: block;
+   
+}
+
+#volt{
+    grid-area: volt;
+    display: flex;
+    
+}
+
+#current{
+    grid-area: current;
+    display: flex;
+   
+}
+
+
+
+#temp_bar{
+    grid-area: loadbar;
+
+}
+#temp_value{
+
+    display: block;
+}
+
+
 }
 
 .end{
@@ -172,6 +245,8 @@ nav a:hover::before{
 }
 
 
+
+  
 
 
 /* diagrams block*/
