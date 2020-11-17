@@ -1,0 +1,19 @@
+lb_pid: {'kp': 31, 'ki': 7, 'kd': 15, 'ir': 78}
+lb_serial_number: 'FT40DJ6B'
+lb_max_speed: 200
+
+lf_pid: {'kp': 31, 'ki': 7, 'kd': 11, 'ir': 75}
+lf_serial_number: 'FT40E1DB'
+lf_max_speed: 400
+
+
+rb_pid: {'kp': 28, 'ki': 7, 'kd': 12, 'ir': 40}
+rb_serial_number: 'FT40DD7D'
+rb_max_speed: 400
+
+ 
+rf_pid: {'kp': 30, 'ki': 5, 'kd': 15, 'ir': 78}
+rf_serial_number: 'FT40B6ZM'
+rf_max_speed: 400
+
+angle_tolerance: 1.0

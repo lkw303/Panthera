@@ -1,0 +1,7 @@
+<launch>
+	<rosparam command="load" file="$(find panthera_locomotion)/params/trans_params.yaml"/>
+	<node name="lb_trans_motor" type="lb_trans_motor.py" pkg="panthera_locomotion" output="screen"/>
+	<node name="lf_trans_motor" type="lf_trans_motor.py" pkg="panthera_locomotion" output="screen"/>
+	<node name="rb_trans_motor" type="rb_trans_motor.py" pkg="panthera_locomotion" output="screen"/>
+	<node name="rf_trans_motor" type="rf_trans_motor.py" pkg="panthera_locomotion" output="screen"/>
+</launch>
